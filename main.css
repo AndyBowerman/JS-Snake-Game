@@ -23,12 +23,11 @@
   height: 80%;
   width: 80%;
   display: grid;
-  grid-template-columns: repeat(30, 1fr);
+  grid-template-columns: repeat(50, 1fr);
   grid-template-rows: repeat(20, 1fr);
 }
 .game__snake {
   background-color: green;
-  grid-area: 10/14/11/15;
   height: 100%;
   width: 100%;
 }

@@ -2,39 +2,96 @@
 
 Tasks to complete
 
-setInterval(function, 200) -> calls the funciton passed in every 200ms.
+Snake will be an array of arrays.
 
-make the snakes position move - if pressed up, down, left or right change the grid area
-up - increase 1st & 3rd
-down - decrease
-right - increase 2nd & 4th
-left - decrease
+make snake die if it hits the side of the grid
+
+function to randomly generate a new piece of food - somehow stop it generating where the snakes body is.
+
+stop snake going back into itself - add to movement function 
 
 
 */
 
 const container = document.querySelector('.game__container');
-const snake = document.querySelector('.game__snake');
-let positionArray = [10, 14, 11, 15];
-const direction = "down";
+let positionArray = [[10, 14, 11, 15]];
+let direction = "";
 
-const func = () => {
-    // let arr = positionArray.map(item => item + 1);
-    // snake.style.gridArea = arr.join(" / ");
-    // positionArray = [...arr];
-    // console.log(positionArray);
+// Below moves the snake every second depending on what the direction value is.
 
-    if(direction == 'right'){
-        let arr = positionArray.map((item, index) => index % 2 != 0 ? item + 1 : item);
-        snake.style.gridArea = arr.join(" / ");
-        positionArray = [...arr];
-    } else if(direction == 'down'){
-        let arr = positionArray.map((item, index) => index % 2 == 0 ? item + 1 : item);
-        snake.style.gridArea = arr.join(" / ");
-        positionArray = [...arr];
-    } 
+
+
+setInterval(() => {
+    if(direction == 'arrowright'){
+        let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item + 1 : item);
+        positionArray.unshift(arr);
+        positionArray.pop();
+        container.innerHTML = "";
+        positionArray.forEach(item => {
+            const snake = document.createElement('div');
+            snake.setAttribute('class', 'game__snake');
+            snake.style.gridArea = item.join(' / ');
+            container.appendChild(snake);
+        })
+    } else if(direction == 'arrowleft'){
+        let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item - 1 : item);
+        positionArray.unshift(arr);
+        positionArray.pop();
+        container.innerHTML = "";
+        positionArray.forEach(item => {
+            const snake = document.createElement('div');
+            snake.setAttribute('class', 'game__snake');
+            snake.style.gridArea = item.join(' / ');
+            container.appendChild(snake);
+        })
+    } else if(direction == 'arrowup'){
+        let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item - 1 : item);
+        positionArray.unshift(arr);
+        positionArray.pop();
+        container.innerHTML = "";
+        positionArray.forEach(item => {
+            const snake = document.createElement('div');
+            snake.setAttribute('class', 'game__snake');
+            snake.style.gridArea = item.join(' / ');
+            container.appendChild(snake);
+        })
+    } else if(direction == 'arrowdown'){
+        let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item + 1 : item);
+        positionArray.unshift(arr);
+        positionArray.pop();
+        container.innerHTML = "";
+        positionArray.forEach(item => {
+            const snake = document.createElement('div');
+            snake.setAttribute('class', 'game__snake');
+            snake.style.gridArea = item.join(' / ');
+            container.appendChild(snake);
+        })
+    }
+}, 200);
+
+
+
+
+const setDirection = (e) => {
+    const directionsArray = ['arrowup', 'arrowdown', 'arrowright', 'arrowleft'];
+    if(directionsArray.includes(e.key.toLowerCase())) {
+        direction = e.key.toLowerCase();
+    }
 }
 
-func();
+document.body.addEventListener('keydown', setDirection);
 
-func();
+
+// else if(direction == 'arrowleft'){
+    //     let arr = positionArray.map((item, index) => index % 2 != 0 ? item - 1 : item);
+    //     snake.style.gridArea = arr.join(" / ");
+    //     positionArray = [...arr];
+    // } else if(direction == 'arrowup'){
+    //     let arr = positionArray.map((item, index) => index % 2 == 0 ? item - 1 : item);
+    //     snake.style.gridArea = arr.join(" / ");
+    //     positionArray = [...arr];
+    // } else if(direction == 'arrowdown'){
+    //     let arr = positionArray.map((item, index) => index % 2 == 0 ? item + 1 : item);
+    //     snake.style.gridArea = arr.join(" / ");
+    //     positionArray = [...arr];
+    // } 
