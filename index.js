@@ -24,20 +24,22 @@ let positionArray = [[10, 14, 11, 15], [10, 15, 11, 16], [10, 16, 11, 17], [10, 
 let direction = "";
 const difficulty = document.querySelector('.header__selector');
 const food = document.createElement('div');
-food.setAttribute('class', 'game__food');    
+food.setAttribute('class', 'game__food');
+let score = 0;
+let foodPosition = [];
 
 
 // Changes the foods position
 
 const moveFood = () => {   
-    let rowIndex = Math.floor(Math.random() * (26 - 1 + 1) + 1);
-    let columnIndex = Math.floor(Math.random() * (51 - 1 + 1) + 1);
-    const foodPosition = [rowIndex, columnIndex, rowIndex + 1, columnIndex + 1];
+    let rowIndex = Math.floor(Math.random() * (25 - 1 + 1) + 1);
+    let columnIndex = Math.floor(Math.random() * (50 - 1 + 1) + 1);
+    foodPosition = [rowIndex, columnIndex, rowIndex + 1, columnIndex + 1];
     if(!positionArray.includes(foodPosition)) {
         food.style.gridArea = foodPosition.join(' / ');
     } else {
         moveFood();
-    }    
+    }
 }
 
 moveFood();
@@ -45,8 +47,19 @@ moveFood();
 
 
 
-// Below moves the snake every second depending on what the direction value is.
+// Grow the snake when it touches the food
+/*
+ - don't delete the food just run movefood() to move it somewhere else
+ - then catch the last array in position array and duplicate it on the end of that array
+ - increment the score variable.
+*/
 
+const growSnake = () => {
+    moveFood();
+    const snakeSegment = positionArray[positionArray.length - 1];
+    positionArray.push(snakeSegment);
+    score++;
+}
 
 
 
@@ -55,6 +68,16 @@ moveFood();
             let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item + 1 : item);
             positionArray.unshift(arr);
             positionArray.pop();
+
+            // Below isn't working correctly because the numbers could be included but we're not checking the order. get index involved somehow
+            const checkLength = positionArray[0].filter(item => foodPosition.includes(item));
+            if(checkLength.length == 4) {
+                growSnake();
+            }
+
+
+
+
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -67,6 +90,10 @@ moveFood();
             let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item - 1 : item);
             positionArray.unshift(arr);
             positionArray.pop();
+            const checkLength = positionArray[0].filter(item => foodPosition.includes(item));
+            if(checkLength.length == 4) {
+                growSnake();
+            }
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -79,6 +106,10 @@ moveFood();
             let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item - 1 : item);
             positionArray.unshift(arr);
             positionArray.pop();
+            const checkLength = positionArray[0].filter(item => foodPosition.includes(item));
+            if(checkLength.length == 4) {
+                growSnake();
+            }
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -91,6 +122,10 @@ moveFood();
             let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item + 1 : item);
             positionArray.unshift(arr);
             positionArray.pop();
+            const checkLength = positionArray[0].filter(item => foodPosition.includes(item));
+            if(checkLength.length == 4) {
+                growSnake();
+            }
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -100,7 +135,9 @@ moveFood();
                 container.appendChild(snake);
             })
         }
-    }, 300)
+    }, 150)
+
+
 
 
 const setDirection = (e) => {
