@@ -2,16 +2,15 @@
 
 Tasks to complete
 
+
+
 Failure function
     - if the snake hits itself
     - if it goes out the grid
+    - Generate a failed Sign showing currentScore and high score and with restart button
 
-Grow the snake
-    - use .include to check the foods position is within the position array. if true push extra position array
-    - work out how to control which direction the growth goes in. May just need if statement to make sure it doesn't over lap
 
-Delete the food
-    - when the snake eats the food run function to delete current food, grow the snake and generate a new one
+Increment score & store highscore
 
 Difficulty option - set speed of the interval function - need event listener to start main function when arrow pressed
 otherwise you can't set difficult before the function has already began.
@@ -20,13 +19,17 @@ otherwise you can't set difficult before the function has already began.
 */
 
 const container = document.querySelector('.game__container');
-let positionArray = [[10, 14, 11, 15], [10, 15, 11, 16], [10, 16, 11, 17], [10, 17, 11, 18]];
+let positionArray = [[10, 14, 11, 15]];
 let direction = "";
 const difficulty = document.querySelector('.header__selector');
 const food = document.createElement('div');
 food.setAttribute('class', 'game__food');
-let score = 0;
+let currentScore = 0;
+let highScore = 0;
+const scoreCounter = document.querySelector('.header__score');
 let foodPosition = [];
+const restartButton = document.querySelector('.game__button');
+
 
 
 // Changes the foods position
@@ -58,7 +61,8 @@ const growSnake = () => {
     moveFood();
     const snakeSegment = positionArray[positionArray.length - 1];
     positionArray.push(snakeSegment);
-    score++;
+    currentScore++;
+    scoreCounter.innerText = `Current Score: ${currentScore}`;
 }
 
 
@@ -68,16 +72,10 @@ const growSnake = () => {
             let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item + 1 : item);
             positionArray.unshift(arr);
             positionArray.pop();
-
-            // Below isn't working correctly because the numbers could be included but we're not checking the order. get index involved somehow
-            const checkLength = positionArray[0].filter(item => foodPosition.includes(item));
-            if(checkLength.length == 4) {
+            // Below is checking if the head of the snake touches the food
+            if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
-
-
-
-
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -90,8 +88,8 @@ const growSnake = () => {
             let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item - 1 : item);
             positionArray.unshift(arr);
             positionArray.pop();
-            const checkLength = positionArray[0].filter(item => foodPosition.includes(item));
-            if(checkLength.length == 4) {
+            // Below is checking if the head of the snake touches the food
+            if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
             container.innerHTML = "";
@@ -106,8 +104,8 @@ const growSnake = () => {
             let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item - 1 : item);
             positionArray.unshift(arr);
             positionArray.pop();
-            const checkLength = positionArray[0].filter(item => foodPosition.includes(item));
-            if(checkLength.length == 4) {
+            // Below is checking if the head of the snake touches the food
+            if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
             container.innerHTML = "";
@@ -122,8 +120,8 @@ const growSnake = () => {
             let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item + 1 : item);
             positionArray.unshift(arr);
             positionArray.pop();
-            const checkLength = positionArray[0].filter(item => foodPosition.includes(item));
-            if(checkLength.length == 4) {
+            // Below is checking if the head of the snake touches the food
+            if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
             container.innerHTML = "";
@@ -156,3 +154,25 @@ const setDirection = (e) => {
 }
 
 document.body.addEventListener('keydown', setDirection);
+
+
+
+
+const restartGame = () => {
+    positionArray = [[10, 14, 11, 15]];
+    currentScore = 0;
+    direction = "";
+    moveFood();
+    container.innerHTML = "";
+}
+
+
+restartButton.addEventListener('click', restartGame);
+
+
+
+const deathFunction = () => {
+    // Will put extra code in here - display a message in the container
+    // For now just call the restart function
+    restartGame();
+}

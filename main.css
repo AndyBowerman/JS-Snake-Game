@@ -14,6 +14,7 @@
   width: 100vw;
   height: 85vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -25,6 +26,12 @@
   display: grid;
   grid-template-columns: repeat(50, 1fr);
   grid-template-rows: repeat(25, 1fr);
+  margin-bottom: 20px;
+}
+.game__button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 18px;
 }
 .game__snake {
   background-color: green;
