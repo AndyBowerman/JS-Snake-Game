@@ -5,8 +5,7 @@ Tasks to complete
 
 
 Failure function
-    - if the snake hits itself
-    - if it goes out the grid
+    
     - Generate a failed Sign showing currentScore and high score and with restart button
 
 
@@ -19,7 +18,7 @@ otherwise you can't set difficult before the function has already began.
 */
 
 const container = document.querySelector('.game__container');
-let positionArray = [[10, 14, 11, 15]];
+let positionArray = [[10, 14, 11, 15], [10, 15, 11, 16], [10, 16, 11, 17], [10, 17, 11, 18]];
 let direction = "";
 const difficulty = document.querySelector('.header__selector');
 const food = document.createElement('div');
@@ -47,7 +46,13 @@ const moveFood = () => {
 
 moveFood();
 
-
+const restartGame = () => {
+    positionArray = [[10, 14, 11, 15], [10, 15, 11, 16], [10, 16, 11, 17], [10, 17, 11, 18]];
+    currentScore = 0;
+    direction = "";
+    moveFood();
+    container.innerHTML = "";
+}
 
 
 const growSnake = () => {
@@ -69,8 +74,22 @@ const checkOnGrid = () => {
     }
 }
 
+// Check if the snake hits itself
+// Split first array and then copy of the rest of the array. 
+// check if the is every contained in the body and run restart
 
+const headWithinBody = () => {
+    if(positionArray.length > 1) {
+        const bodyArray = [...positionArray];
+        const headArray = bodyArray.shift();
+        const checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
+        if(checkerArray.length > 0 && checkerArray[0].length == 4) {
+            restartGame();
+        }
+    }
+}
 
+headWithinBody();
 
 
     setInterval(() => {
@@ -82,17 +101,6 @@ const checkOnGrid = () => {
             if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
-
-            // // Check if the head of the snake touches the rest of the body
-            // let bodyArray = [...positionArray];
-            // let headArray = bodyArray.shift();
-            // let checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
-            // if(checkerArray.length > 0) {
-            //     if(checkerArray[0].length == 4) {
-            //         deathFunction();
-            //     }
-            // }
-
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -102,6 +110,7 @@ const checkOnGrid = () => {
                 container.appendChild(snake);
             })
             checkOnGrid();
+            headWithinBody();
         } else if(direction == 'arrowleft'){
             let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item - 1 : item);
             positionArray.unshift(arr);
@@ -110,17 +119,6 @@ const checkOnGrid = () => {
             if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
-
-            // // Check if the head of the snake touches the rest of the body
-            // let bodyArray = [...positionArray];
-            // let headArray = bodyArray.shift();
-            // let checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
-            // if(checkerArray.length > 0) {
-            //     if(checkerArray[0].length == 4) {
-            //         deathFunction();
-            //     }
-            // }
-
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -130,6 +128,7 @@ const checkOnGrid = () => {
                 container.appendChild(snake);
             })
             checkOnGrid();
+            headWithinBody();
         } else if(direction == 'arrowup'){
             let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item - 1 : item);
             positionArray.unshift(arr);
@@ -138,18 +137,6 @@ const checkOnGrid = () => {
             if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
-
-            // // Check if the head of the snake touches the rest of the body
-            // let bodyArray = [...positionArray];
-            // let headArray = bodyArray.shift();
-            // let checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
-            // if(checkerArray.length > 0) {
-            //     if(checkerArray[0].length == 4) {
-            //         deathFunction();
-            //     }
-            // }
-
-
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -159,6 +146,7 @@ const checkOnGrid = () => {
                 container.appendChild(snake);
             })
             checkOnGrid();
+            headWithinBody();
         } else if(direction == 'arrowdown'){
             let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item + 1 : item);
             positionArray.unshift(arr);
@@ -167,18 +155,6 @@ const checkOnGrid = () => {
             if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
-
-            //  // Check if the head of the snake touches the rest of the body
-            // let bodyArray = [...positionArray];
-            // let headArray = bodyArray.shift();
-            // let checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
-            // if(checkerArray.length > 0) {
-            //     if(checkerArray[0].length == 4) {
-            //         deathFunction();
-            //     }
-            // }
-
-
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -188,6 +164,7 @@ const checkOnGrid = () => {
                 container.appendChild(snake);
             })
             checkOnGrid();
+            headWithinBody();
         }
     }, 150)
 
@@ -214,13 +191,7 @@ document.body.addEventListener('keydown', setDirection);
 
 
 
-const restartGame = () => {
-    positionArray = [[10, 14, 11, 15]];
-    currentScore = 0;
-    direction = "";
-    moveFood();
-    container.innerHTML = "";
-}
+
 
 
 restartButton.addEventListener('click', restartGame);
