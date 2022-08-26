@@ -2,11 +2,7 @@
 
 Tasks to complete
 
-
-
-Failure function
-    
-    - Generate a failed Sign showing currentScore and high score and with restart button
+create a function to replace the restart function that will show 
 
 
 Increment score & store highscore
@@ -14,11 +10,15 @@ Increment score & store highscore
 Difficulty option - set speed of the interval function - need event listener to start main function when arrow pressed
 otherwise you can't set difficult before the function has already began.
 
+Refactor everything into functions
+
+improve the design
+
 
 */
 
 const container = document.querySelector('.game__container');
-let positionArray = [[10, 14, 11, 15], [10, 15, 11, 16], [10, 16, 11, 17], [10, 17, 11, 18]];
+let positionArray = [[10, 17, 11, 18]];
 let direction = "";
 const difficulty = document.querySelector('.header__selector');
 const food = document.createElement('div');
@@ -47,7 +47,7 @@ const moveFood = () => {
 moveFood();
 
 const restartGame = () => {
-    positionArray = [[10, 14, 11, 15], [10, 15, 11, 16], [10, 16, 11, 17], [10, 17, 11, 18]];
+    positionArray = [[10, 17, 11, 18]];
     currentScore = 0;
     direction = "";
     moveFood();
@@ -57,10 +57,19 @@ const restartGame = () => {
 
 const growSnake = () => {
     moveFood();
-    const snakeSegment = positionArray[positionArray.length - 1];
-    positionArray.push(snakeSegment);
-    currentScore++;
-    scoreCounter.innerText = `Current Score: ${currentScore}`;
+    if(direction == 'arrowright'){
+        let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item + 1 : item);
+        positionArray.push(arr);
+    } else if(direction == 'arrowleft'){
+        let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item - 1 : item);
+        positionArray.push(arr);
+    } else if(direction == 'arrowup'){
+        let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item - 1 : item);
+        positionArray.push(arr);
+    } else if(direction == 'arrowdown'){
+        let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item + 1 : item);
+        positionArray.unshift(arr);
+    }
 }
 
 
@@ -89,7 +98,6 @@ const headWithinBody = () => {
     }
 }
 
-headWithinBody();
 
 
     setInterval(() => {
