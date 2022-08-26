@@ -23,8 +23,6 @@ let direction = "";
 const difficulty = document.querySelector('.header__selector');
 const food = document.createElement('div');
 food.setAttribute('class', 'game__food');
-let currentScore = 0;
-let highScore = 0;
 const scoreCounter = document.querySelector('.header__score');
 let foodPosition = [];
 const restartButton = document.querySelector('.game__button');
@@ -33,10 +31,12 @@ const restartButton = document.querySelector('.game__button');
 
 // Changes the foods position
 
-const moveFood = () => {   
+const moveFood = () => {
+    //randomly generate number within the range of grid places   
     let rowIndex = Math.floor(Math.random() * (25 - 1 + 1) + 1);
     let columnIndex = Math.floor(Math.random() * (50 - 1 + 1) + 1);
     foodPosition = [rowIndex, columnIndex, rowIndex + 1, columnIndex + 1];
+    // check position of food isn't within the snake, otherwise call function again
     if(!positionArray.includes(foodPosition)) {
         food.style.gridArea = foodPosition.join(' / ');
     } else {
@@ -46,13 +46,29 @@ const moveFood = () => {
 
 moveFood();
 
+// Restart the game on button click
+
 const restartGame = () => {
     positionArray = [[10, 17, 11, 18]];
-    currentScore = 0;
-    direction = "";
     moveFood();
     container.innerHTML = "";
 }
+
+//Restart the game following death
+
+const deathRestart = () => {
+    direction = "";
+    const gameOver = document.createElement('div');
+    gameOver.setAttribute('class', 'game__over');
+    const gameOverHeader = document.createElement('h1');
+    gameOver.appendChild(gameOverHeader);
+    container.appendChild(gameOver);
+    gameOverHeader.innerText = "Game Over";
+    positionArray = [];
+}
+
+
+
 
 
 const growSnake = () => {
@@ -78,8 +94,8 @@ const growSnake = () => {
 
 const checkOnGrid = () => {
     const headArray = positionArray[0];
-    if(headArray[3] > 51 || headArray[3] <= 1 || headArray[2] > 26 || headArray[2] <= 1) {
-        restartGame();
+    if(headArray[3] > 51 || headArray[3] <= 1 || headArray[2] > 26 || headArray[2] == 1) {
+        deathRestart();
     }
 }
 
@@ -93,7 +109,7 @@ const headWithinBody = () => {
         const headArray = bodyArray.shift();
         const checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
         if(checkerArray.length > 0 && checkerArray[0].length == 4) {
-            restartGame();
+            deathRestart();
         }
     }
 }
@@ -174,13 +190,17 @@ const headWithinBody = () => {
             checkOnGrid();
             headWithinBody();
         }
-    }, 150)
+    }, 100)
 
 
 
 
 const setDirection = (e) => {
     const directionsArray = ['arrowup', 'arrowdown', 'arrowright', 'arrowleft'];
+    if(direction == "") {
+        restartGame();
+        direction = e.key.toLowerCase();
+    }
     if(directionsArray.includes(e.key.toLowerCase())) {
         if(e.key.toLowerCase() == 'arrowright' && direction != 'arrowleft'){
             direction = e.key.toLowerCase();
@@ -190,7 +210,7 @@ const setDirection = (e) => {
             direction = e.key.toLowerCase();
         } else if(e.key.toLowerCase() == 'arrowdown' && direction != 'arrowup'){
             direction = e.key.toLowerCase();
-        }        
+        }    
     }
 }
 
