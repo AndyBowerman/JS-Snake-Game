@@ -22,15 +22,19 @@ little arrows that light up either side of the board as you press a direction
 const container = document.querySelector('.game__container');
 let positionArray = [[10, 17, 11, 18]];
 let direction = "";
-const difficulty = document.querySelector('.header__selector');
 const food = document.createElement('div');
 food.setAttribute('class', 'game__food');
 let foodPosition = [];
 const restartButton = document.querySelector('.game__button');
 let currentScore = -1;
 let bestScore = 0;
+let difficulty = 100;
+const difficultySelector = document.querySelector('.header__selector');
 
-
+difficultySelector.addEventListener('change', () => {
+    difficulty = difficultySelector.value
+    console.log(difficulty);
+})
 
 // Changes the foods position
 
@@ -143,6 +147,8 @@ const headWithinBody = () => {
 
 
 
+
+
     setInterval(() => {
         if(direction == 'arrowright'){
             let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item + 1 : item);
@@ -216,9 +222,16 @@ const headWithinBody = () => {
             })
             checkOnGrid();
             headWithinBody();
-        }
-    }, 100)
+        }      
+    }, difficulty);
 
+
+// const startGame = () => {
+//     if(beginGame == 1) {
+//         createMovement();
+//         beginGame = 0;
+//     }
+// }
 
 
 
