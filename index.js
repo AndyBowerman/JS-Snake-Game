@@ -50,13 +50,6 @@ moveFood();
 
 
 
-// Grow the snake when it touches the food
-/*
- - don't delete the food just run movefood() to move it somewhere else
- - then catch the last array in position array and duplicate it on the end of that array
- - increment the score variable.
-*/
-
 const growSnake = () => {
     moveFood();
     const snakeSegment = positionArray[positionArray.length - 1];
@@ -64,6 +57,19 @@ const growSnake = () => {
     currentScore++;
     scoreCounter.innerText = `Current Score: ${currentScore}`;
 }
+
+
+// Restart if snake goes off the grid
+// Can only travel head first so only need to check the head array.
+
+const checkOnGrid = () => {
+    const headArray = positionArray[0];
+    if(headArray[3] > 51 || headArray[3] <= 1 || headArray[2] > 26 || headArray[2] <= 1) {
+        restartGame();
+    }
+}
+
+
 
 
 
@@ -76,6 +82,17 @@ const growSnake = () => {
             if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
+
+            // // Check if the head of the snake touches the rest of the body
+            // let bodyArray = [...positionArray];
+            // let headArray = bodyArray.shift();
+            // let checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
+            // if(checkerArray.length > 0) {
+            //     if(checkerArray[0].length == 4) {
+            //         deathFunction();
+            //     }
+            // }
+
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -84,6 +101,7 @@ const growSnake = () => {
                 snake.style.gridArea = item.join(' / ');
                 container.appendChild(snake);
             })
+            checkOnGrid();
         } else if(direction == 'arrowleft'){
             let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item - 1 : item);
             positionArray.unshift(arr);
@@ -92,6 +110,17 @@ const growSnake = () => {
             if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
+
+            // // Check if the head of the snake touches the rest of the body
+            // let bodyArray = [...positionArray];
+            // let headArray = bodyArray.shift();
+            // let checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
+            // if(checkerArray.length > 0) {
+            //     if(checkerArray[0].length == 4) {
+            //         deathFunction();
+            //     }
+            // }
+
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -100,6 +129,7 @@ const growSnake = () => {
                 snake.style.gridArea = item.join(' / ');
                 container.appendChild(snake);
             })
+            checkOnGrid();
         } else if(direction == 'arrowup'){
             let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item - 1 : item);
             positionArray.unshift(arr);
@@ -108,6 +138,18 @@ const growSnake = () => {
             if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
+
+            // // Check if the head of the snake touches the rest of the body
+            // let bodyArray = [...positionArray];
+            // let headArray = bodyArray.shift();
+            // let checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
+            // if(checkerArray.length > 0) {
+            //     if(checkerArray[0].length == 4) {
+            //         deathFunction();
+            //     }
+            // }
+
+
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -116,6 +158,7 @@ const growSnake = () => {
                 snake.style.gridArea = item.join(' / ');
                 container.appendChild(snake);
             })
+            checkOnGrid();
         } else if(direction == 'arrowdown'){
             let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item + 1 : item);
             positionArray.unshift(arr);
@@ -124,6 +167,18 @@ const growSnake = () => {
             if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
                 growSnake();
             }
+
+            //  // Check if the head of the snake touches the rest of the body
+            // let bodyArray = [...positionArray];
+            // let headArray = bodyArray.shift();
+            // let checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
+            // if(checkerArray.length > 0) {
+            //     if(checkerArray[0].length == 4) {
+            //         deathFunction();
+            //     }
+            // }
+
+
             container.innerHTML = "";
             container.appendChild(food);
             positionArray.forEach(item => {
@@ -132,6 +187,7 @@ const growSnake = () => {
                 snake.style.gridArea = item.join(' / ');
                 container.appendChild(snake);
             })
+            checkOnGrid();
         }
     }, 150)
 
@@ -168,11 +224,3 @@ const restartGame = () => {
 
 
 restartButton.addEventListener('click', restartGame);
-
-
-
-const deathFunction = () => {
-    // Will put extra code in here - display a message in the container
-    // For now just call the restart function
-    restartGame();
-}
