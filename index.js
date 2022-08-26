@@ -2,10 +2,7 @@
 
 Tasks to complete
 
-create a function to replace the restart function that will show 
 
-
-Increment score & store highscore
 
 Difficulty option - set speed of the interval function - need event listener to start main function when arrow pressed
 otherwise you can't set difficult before the function has already began.
@@ -13,6 +10,11 @@ otherwise you can't set difficult before the function has already began.
 Refactor everything into functions
 
 improve the design
+
+dark purple snake on grass?
+things eaten are red?
+
+little arrows that light up either side of the board as you press a direction
 
 
 */
@@ -23,9 +25,10 @@ let direction = "";
 const difficulty = document.querySelector('.header__selector');
 const food = document.createElement('div');
 food.setAttribute('class', 'game__food');
-const scoreCounter = document.querySelector('.header__score');
 let foodPosition = [];
 const restartButton = document.querySelector('.game__button');
+let currentScore = -1;
+let bestScore = 0;
 
 
 
@@ -52,6 +55,9 @@ const restartGame = () => {
     positionArray = [[10, 17, 11, 18]];
     moveFood();
     container.innerHTML = "";
+    updateBestScore();
+    currentScore = -1;
+    updateCurrentScore();
 }
 
 //Restart the game following death
@@ -65,10 +71,30 @@ const deathRestart = () => {
     container.appendChild(gameOver);
     gameOverHeader.innerText = "Game Over";
     positionArray = [];
+    updateBestScore();
+    currentScore = -1;
+    updateCurrentScore();
 }
 
+// Update current score
 
+const updateCurrentScore = () => {
+    currentScore++;
+    document.querySelector('.header__currentScore').innerText = `Current Score: ${currentScore}`;
+}
 
+updateCurrentScore();
+
+//Update best score
+
+const updateBestScore = () => {
+    if(currentScore > bestScore) {
+        bestScore = currentScore;
+    }
+    document.querySelector('.header__bestScore').innerText = `Best Score: ${bestScore}`;
+}
+
+updateBestScore();
 
 
 const growSnake = () => {
@@ -86,6 +112,7 @@ const growSnake = () => {
         let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item + 1 : item);
         positionArray.unshift(arr);
     }
+    updateCurrentScore();
 }
 
 

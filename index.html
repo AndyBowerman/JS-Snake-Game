@@ -10,21 +10,26 @@
 <body>
 
     <header class="header">
-        <h1>Welcome to Snake!</h1>
-        <h3>Press an arrow key to begin</h3>
-        <h4 class="header__score"></h4>
+        <h1>Snake</h1>
+        <ul>
+            <li class="header__currentScore"></li>
+            <li class="header__bestScore"></li>
+        </ul>
         <label for="difficulty">Select Your Speed:</label>
         <select name="difficulty" class="header__selector">
-            <option value="500">Easy</option>
-            <option value="200" selected="selected">Intermediate</option>
-            <option value="100">Hard</option>
+            <option value="500">Slow</option>
+            <option value="200" selected="selected">Medium</option>
+            <option value="100">Fast</option>
             <option value="50">Pro-Snaker</option>
         </select>
     </header>
 
     <main class="game">
         <div class="game__container">
-            <!--snake placeholder-->
+            <div class="game__welcome">
+                <h1>Welcome to Snake!</h1>
+                <h3>Select your speed then press any arrow key to begin!</h3>
+            </div>
         </div>
         <div class="game__restart">
             <button class="game__button">Restart</button>
