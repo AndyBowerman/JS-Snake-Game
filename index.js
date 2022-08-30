@@ -16,25 +16,26 @@ things eaten are red?
 
 little arrows that light up either side of the board as you press a direction
 
+Change size of the grid?
+
 
 */
 
 const container = document.querySelector('.game__container');
-let positionArray = [[10, 17, 11, 18]];
+const restartButton = document.querySelector('.game__button');
+
+// Default snake position
+let snakePosition = [[10, 17, 11, 18]];
 let direction = "";
+
 const food = document.createElement('div');
 food.setAttribute('class', 'game__food');
 let foodPosition = [];
-const restartButton = document.querySelector('.game__button');
+
+
 let currentScore = -1;
 let bestScore = 0;
-let difficulty = 100;
-const difficultySelector = document.querySelector('.header__selector');
 
-difficultySelector.addEventListener('change', () => {
-    difficulty = difficultySelector.value
-    console.log(difficulty);
-})
 
 // Changes the foods position
 
@@ -44,7 +45,7 @@ const moveFood = () => {
     let columnIndex = Math.floor(Math.random() * (50 - 1 + 1) + 1);
     foodPosition = [rowIndex, columnIndex, rowIndex + 1, columnIndex + 1];
     // check position of food isn't within the snake, otherwise call function again
-    if(!positionArray.includes(foodPosition)) {
+    if(!snakePosition.includes(foodPosition)) {
         food.style.gridArea = foodPosition.join(' / ');
     } else {
         moveFood();
@@ -56,9 +57,10 @@ moveFood();
 // Restart the game on button click
 
 const restartGame = () => {
-    positionArray = [[10, 17, 11, 18]];
+    direction = "";
     moveFood();
     container.innerHTML = "";
+    snakePosition = [[10, 17, 11, 18]];
     updateBestScore();
     currentScore = -1;
     updateCurrentScore();
@@ -66,7 +68,7 @@ const restartGame = () => {
 
 //Restart the game following death
 
-const deathRestart = () => {
+const snakeDied = () => {
     direction = "";
     const gameOver = document.createElement('div');
     gameOver.setAttribute('class', 'game__over');
@@ -74,7 +76,6 @@ const deathRestart = () => {
     gameOver.appendChild(gameOverHeader);
     container.appendChild(gameOver);
     gameOverHeader.innerText = "Game Over";
-    positionArray = [];
     updateBestScore();
     currentScore = -1;
     updateCurrentScore();
@@ -100,149 +101,108 @@ const updateBestScore = () => {
 
 updateBestScore();
 
+// check if snakes head enters the same grid area as the food and then grows in the direction decided by the current direction the snakes traveling in
 
 const growSnake = () => {
-    moveFood();
-    if(direction == 'arrowright'){
-        let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item + 1 : item);
-        positionArray.push(arr);
-    } else if(direction == 'arrowleft'){
-        let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item - 1 : item);
-        positionArray.push(arr);
-    } else if(direction == 'arrowup'){
-        let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item - 1 : item);
-        positionArray.push(arr);
-    } else if(direction == 'arrowdown'){
-        let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item + 1 : item);
-        positionArray.unshift(arr);
-    }
-    updateCurrentScore();
+    if(snakePosition[0][0] == foodPosition[0] && snakePosition[0][1] == foodPosition[1] && snakePosition[0][2] == foodPosition[2] && snakePosition[0][3] == foodPosition[3]) {
+        moveFood();
+        if(direction == 'arrowright'){
+            let arr = snakePosition[0].map((item, index) => index % 2 != 0 ? item + 1 : item);
+            snakePosition.push(arr);
+        } else if(direction == 'arrowleft'){
+            let arr = snakePosition[0].map((item, index) => index % 2 != 0 ? item - 1 : item);
+            snakePosition.push(arr);
+        } else if(direction == 'arrowup'){
+            let arr = snakePosition[0].map((item, index) => index % 2 == 0 ? item - 1 : item);
+            snakePosition.push(arr);
+        } else if(direction == 'arrowdown'){
+            let arr = snakePosition[0].map((item, index) => index % 2 == 0 ? item + 1 : item);
+            snakePosition.unshift(arr);
+        }
+        updateCurrentScore();
+    }    
 }
 
 
-// Restart if snake goes off the grid
+// Run snakeDied if snake goes off the grid.
 // Can only travel head first so only need to check the head array.
 
 const checkOnGrid = () => {
-    const headArray = positionArray[0];
+    const headArray = snakePosition[0];
     if(headArray[3] > 51 || headArray[3] <= 1 || headArray[2] > 26 || headArray[2] == 1) {
-        deathRestart();
+        snakeDied();
     }
 }
 
 // Check if the snake hits itself
-// Split first array and then copy of the rest of the array. 
-// check if the is every contained in the body and run restart
+// split snake into array containing the head and array containing the rest of the body.
+// filter body array by head array and if length reaches four run snakeDied function.
 
 const headWithinBody = () => {
-    if(positionArray.length > 1) {
-        const bodyArray = [...positionArray];
+    if(snakePosition.length > 1) {
+        const bodyArray = [...snakePosition];
         const headArray = bodyArray.shift();
         const checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
         if(checkerArray.length > 0 && checkerArray[0].length == 4) {
-            deathRestart();
+            snakeDied();
         }
     }
 }
 
 
+// Move the snake
 
+const moveSnake = () => {
+    let arr = [];
+    if(direction != ""){
+        if(direction == 'arrowright'){
+            arr = snakePosition[0].map((item, index) => index % 2 != 0 ? item + 1 : item);
+        } else if(direction == 'arrowleft'){
+            arr = snakePosition[0].map((item, index) => index % 2 != 0 ? item - 1 : item);
+        } else if(direction == 'arrowup'){
+            arr = snakePosition[0].map((item, index) => index % 2 == 0 ? item - 1 : item);
+        } else if(direction == 'arrowdown'){
+            arr = snakePosition[0].map((item, index) => index % 2 == 0 ? item + 1 : item);
+        }
+
+        snakePosition.unshift(arr);
+        snakePosition.pop();            
+        container.innerHTML = "";
+        container.appendChild(food);
+        snakePosition.forEach(item => {
+            const snake = document.createElement('div');
+            snake.setAttribute('class', 'game__snake');
+            snake.style.gridArea = item.join(' / ');
+            container.appendChild(snake);
+        })
+    }
+}
+
+
+
+// Below runs the whole game and calls functions passed in every 100ms.
 
 
     setInterval(() => {
-        if(direction == 'arrowright'){
-            let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item + 1 : item);
-            positionArray.unshift(arr);
-            positionArray.pop();
-            // Below is checking if the head of the snake touches the food
-            if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
-                growSnake();
-            }
-            container.innerHTML = "";
-            container.appendChild(food);
-            positionArray.forEach(item => {
-                const snake = document.createElement('div');
-                snake.setAttribute('class', 'game__snake');
-                snake.style.gridArea = item.join(' / ');
-                container.appendChild(snake);
-            })
+        if(direction != "") {
             checkOnGrid();
             headWithinBody();
-        } else if(direction == 'arrowleft'){
-            let arr = positionArray[0].map((item, index) => index % 2 != 0 ? item - 1 : item);
-            positionArray.unshift(arr);
-            positionArray.pop();
-            // Below is checking if the head of the snake touches the food
-            if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
-                growSnake();
-            }
-            container.innerHTML = "";
-            container.appendChild(food);
-            positionArray.forEach(item => {
-                const snake = document.createElement('div');
-                snake.setAttribute('class', 'game__snake');
-                snake.style.gridArea = item.join(' / ');
-                container.appendChild(snake);
-            })
-            checkOnGrid();
-            headWithinBody();
-        } else if(direction == 'arrowup'){
-            let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item - 1 : item);
-            positionArray.unshift(arr);
-            positionArray.pop();
-            // Below is checking if the head of the snake touches the food
-            if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
-                growSnake();
-            }
-            container.innerHTML = "";
-            container.appendChild(food);
-            positionArray.forEach(item => {
-                const snake = document.createElement('div');
-                snake.setAttribute('class', 'game__snake');
-                snake.style.gridArea = item.join(' / ');
-                container.appendChild(snake);
-            })
-            checkOnGrid();
-            headWithinBody();
-        } else if(direction == 'arrowdown'){
-            let arr = positionArray[0].map((item, index) => index % 2 == 0 ? item + 1 : item);
-            positionArray.unshift(arr);
-            positionArray.pop();
-            // Below is checking if the head of the snake touches the food
-            if(positionArray[0][0] == foodPosition[0] && positionArray[0][1] == foodPosition[1] && positionArray[0][2] == foodPosition[2] && positionArray[0][3] == foodPosition[3]) {
-                growSnake();
-            }
-            container.innerHTML = "";
-            container.appendChild(food);
-            positionArray.forEach(item => {
-                const snake = document.createElement('div');
-                snake.setAttribute('class', 'game__snake');
-                snake.style.gridArea = item.join(' / ');
-                container.appendChild(snake);
-            })
-            checkOnGrid();
-            headWithinBody();
-        }      
-    }, difficulty);
+            growSnake();
+            moveSnake();
+        }                 
+    }, 100);
 
 
-// const startGame = () => {
-//     if(beginGame == 1) {
-//         createMovement();
-//         beginGame = 0;
-//     }
-// }
 
-
+// Sets direction the snake travels based on the arrow key pressed. Only runs if an arrow key is pressed 
 
 const setDirection = (e) => {
     const directionsArray = ['arrowup', 'arrowdown', 'arrowright', 'arrowleft'];
-    if(direction == "") {
-        restartGame();
-        direction = e.key.toLowerCase();
-    }
     if(directionsArray.includes(e.key.toLowerCase())) {
-        if(e.key.toLowerCase() == 'arrowright' && direction != 'arrowleft'){
+        if(direction == "") {
+            restartGame();
+            direction = e.key.toLowerCase();
+        } else if(e.key.toLowerCase() == 'arrowright' && direction != 'arrowleft'){
             direction = e.key.toLowerCase();
         } else if(e.key.toLowerCase() == 'arrowleft' && direction != 'arrowright'){
             direction = e.key.toLowerCase();
