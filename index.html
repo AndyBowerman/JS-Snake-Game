@@ -10,25 +10,21 @@
 <body>
 
     <header class="header">
-        <h1>Snake</h1>
+        <div>
+            <img class="header__img" src="./images/snake.png" alt="Cartoon Snake">
+        </div>
         <ul>
             <li class="header__currentScore"></li>
             <li class="header__bestScore"></li>
         </ul>
-        <label for="difficulty">Select Your Speed:</label>
-        <select name="difficulty" class="header__selector">
-            <option value="200">Slow</option>
-            <option value="100" selected="selected">Medium</option>
-            <option value="75">Fast</option>
-            <option value="50">Pro-Snaker</option>
-        </select>
+        
     </header>
 
     <main class="game">
         <div class="game__container">
             <div class="game__welcome">
-                <h1>Welcome to Snake!</h1>
-                <h3>Select your speed then press any arrow key to begin!</h3>
+                <h1>Welcome to Snake</h1>
+                <h3>Press any arrow key to begin!</h3>
             </div>
         </div>
         <div class="game__restart">

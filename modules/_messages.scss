@@ -1,22 +1,39 @@
 .game__over {
-    background-color: black;
+    background-color: $color-black;
     height: 100%;
     width: 100%;
     border-radius: 20px;
-    grid-area: 11 / 15 / 15 / 38;
-    color: white;
+    grid-area: 7 / 10 / 14 / 22;
+    color: $color-white;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+
+    h1 {
+        font-size: 40px;
+    }
 }
 
 .game__welcome {
     height: 100%;
     width: 100%;
     border-radius: 20px;
-    grid-area: 11 / 15 / 15 / 38;
+    background-color: $color-black;
+    grid-area: 7 / 10 / 14 / 22;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    color: $color-white;
+
+    h1 {
+        font-size: 40px;
+        padding: 20px;
+    }
+    
+    h3 {
+        font-size: 20px;
+    }
 }

@@ -1,23 +1,20 @@
 .game {
     width: 100vw;
-    height: 85vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
     &__container {
-        background-image: url('https://i.pinimg.com/originals/b9/4c/c9/b94cc9753e674518e4bb3ef1bc3fd9f3.jpg');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        height: 80%;
-        width: 60%;
+        background-color: $color-black;
+        height: 60vh;
+        width: 50%;
         display: grid;
-        grid-template-columns: repeat(50, 1fr);
-        grid-template-rows: repeat(25, 1fr);
+        grid-template-columns: repeat(30, 1fr);
+        grid-template-rows: repeat(20, 1fr);
         margin-bottom: 20px;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border: 5px solid $color-green;
     }
 
     &__button {

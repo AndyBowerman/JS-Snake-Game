@@ -1,23 +1,20 @@
 .game {
   width: 100vw;
-  height: 85vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .game__container {
-  background-image: url("https://i.pinimg.com/originals/b9/4c/c9/b94cc9753e674518e4bb3ef1bc3fd9f3.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 80%;
-  width: 60%;
+  background-color: #1c2519;
+  height: 60vh;
+  width: 50%;
   display: grid;
-  grid-template-columns: repeat(50, 1fr);
-  grid-template-rows: repeat(25, 1fr);
+  grid-template-columns: repeat(30, 1fr);
+  grid-template-rows: repeat(20, 1fr);
   margin-bottom: 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border: 5px solid #a8fd00;
 }
 .game__button {
   padding: 10px 20px;
@@ -26,40 +23,54 @@
 }
 
 .game__over {
-  background-color: black;
+  background-color: #1c2519;
   height: 100%;
   width: 100%;
   border-radius: 20px;
-  grid-area: 11/15/15/38;
-  color: white;
+  grid-area: 7/10/14/22;
+  color: #f4f4f4;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+}
+.game__over h1 {
+  font-size: 40px;
 }
 
 .game__welcome {
   height: 100%;
   width: 100%;
   border-radius: 20px;
-  grid-area: 11/15/15/38;
+  background-color: #1c2519;
+  grid-area: 7/10/14/22;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  color: #f4f4f4;
+}
+.game__welcome h1 {
+  font-size: 40px;
+  padding: 20px;
+}
+.game__welcome h3 {
+  font-size: 20px;
 }
 
 .game__snake {
-  background-color: green;
+  background-color: #a8fd00;
   height: 100%;
   width: 100%;
   border-radius: 10px;
 }
 
 .game__food {
-  background-color: yellow;
+  background-color: #df0f15;
   height: 100%;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 50%;
 }
 
 * {
@@ -70,10 +81,23 @@
 
 body {
   background-color: #f4f4f4;
+  font-family: monospace;
+  background-image: url("https://t3.ftcdn.net/jpg/02/66/43/24/360_F_266432466_cES81ryd1SVxIL5HrO6J7r7JMqiIgCg8.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
 }
 
 .header {
   width: 100vw;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header__img {
+  height: 200px;
+  width: auto;
   padding: 10px;
 }

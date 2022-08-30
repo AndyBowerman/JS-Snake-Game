@@ -7,17 +7,6 @@ Tasks to complete
 Difficulty option - set speed of the interval function - need event listener to start main function when arrow pressed
 otherwise you can't set difficult before the function has already began.
 
-Refactor everything into functions
-
-improve the design
-
-dark purple snake on grass?
-things eaten are red?
-
-little arrows that light up either side of the board as you press a direction
-
-Change size of the grid?
-
 
 */
 
@@ -25,7 +14,7 @@ const container = document.querySelector('.game__container');
 const restartButton = document.querySelector('.game__button');
 
 // Default snake position
-let snakePosition = [[10, 17, 11, 18]];
+let snakePosition = [[10, 14, 11, 15]];
 let direction = "";
 
 const food = document.createElement('div');
@@ -41,8 +30,8 @@ let bestScore = 0;
 
 const moveFood = () => {
     //randomly generate number within the range of grid places   
-    let rowIndex = Math.floor(Math.random() * (25 - 1 + 1) + 1);
-    let columnIndex = Math.floor(Math.random() * (50 - 1 + 1) + 1);
+    let rowIndex = Math.floor(Math.random() * (20 - 1 + 1) + 1);
+    let columnIndex = Math.floor(Math.random() * (30 - 1 + 1) + 1);
     foodPosition = [rowIndex, columnIndex, rowIndex + 1, columnIndex + 1];
     // check position of food isn't within the snake, otherwise call function again
     if(!snakePosition.includes(foodPosition)) {
@@ -60,7 +49,7 @@ const restartGame = () => {
     direction = "";
     moveFood();
     container.innerHTML = "";
-    snakePosition = [[10, 17, 11, 18]];
+    snakePosition = [[10, 14, 11, 15]];
     updateBestScore();
     currentScore = -1;
     updateCurrentScore();
@@ -68,7 +57,7 @@ const restartGame = () => {
 
 //Restart the game following death
 
-const snakeDied = () => {
+const gameOver = () => {
     direction = "";
     const gameOver = document.createElement('div');
     gameOver.setAttribute('class', 'game__over');
@@ -129,8 +118,8 @@ const growSnake = () => {
 
 const checkOnGrid = () => {
     const headArray = snakePosition[0];
-    if(headArray[3] > 51 || headArray[3] <= 1 || headArray[2] > 26 || headArray[2] == 1) {
-        snakeDied();
+    if(headArray[3] > 31 || headArray[3] <= 1 || headArray[2] > 21 || headArray[2] <= 1) {
+        gameOver();
     }
 }
 
@@ -144,7 +133,7 @@ const headWithinBody = () => {
         const headArray = bodyArray.shift();
         const checkerArray = bodyArray.filter(item => item[0] == headArray[0] && item[1] == headArray[1] && item[2] == headArray[2] && item[3] == headArray[3]);
         if(checkerArray.length > 0 && checkerArray[0].length == 4) {
-            snakeDied();
+            gameOver();
         }
     }
 }
