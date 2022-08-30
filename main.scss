@@ -1,7 +1,17 @@
+@import "./modules/variables";
+@import "./modules/board";
+@import "./modules/messages";
+@import "./modules/snake";
+@import "./modules/food";
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    background-color: #f4f4f4;
 }
 
 .header {
@@ -10,65 +20,3 @@
     padding: 10px;
 }
 
-.game {
-    width: 100vw;
-    height: 85vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    &__container {
-        background-color: lightgray;
-        border: black 2px solid;
-        height: 80%;
-        width: 80%;
-        display: grid;
-        grid-template-columns: repeat(50, 1fr);
-        grid-template-rows: repeat(25, 1fr);
-        margin-bottom: 20px;
-    }
-
-    &__button {
-        padding: 10px 20px;
-        border-radius: 5px;
-        font-size: 18px;
-    }
-
-    &__snake {
-        background-color: green;
-        height: 100%;
-        width: 100%;
-        border-radius: 10px;
-    }
-
-    &__food {
-        background-color: yellow;
-        height: 100%;
-        width: 100%;
-        border-radius: 10px;
-    }
-
-    &__over {
-        background-color: black;
-        height: 100%;
-        width: 100%;
-        border-radius: 20px;
-        grid-area: 11 / 15 / 15 / 38;
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    &__welcome {
-        height: 100%;
-        width: 100%;
-        border-radius: 20px;
-        grid-area: 11 / 15 / 15 / 38;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-}
