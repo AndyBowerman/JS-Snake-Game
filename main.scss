@@ -32,5 +32,10 @@ body {
         width: auto;
         padding: 10px;
     }
+
+    &__list {
+        list-style: none;
+        font-size: 18px;
+    }
 }
 

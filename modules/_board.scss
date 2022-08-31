@@ -13,13 +13,19 @@
         grid-template-columns: repeat(30, 1fr);
         grid-template-rows: repeat(20, 1fr);
         margin-bottom: 20px;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        box-shadow: $box-shadow;
         border: 5px solid $color-green;
     }
 
     &__button {
-        padding: 10px 20px;
+        padding: 10px 50px;
         border-radius: 5px;
-        font-size: 18px;
+        font-size: 24px;
+        background-color: $color-red;
+        font-family: $font-main;
+        font-weight: 500;
+        color: $color-white;
+        border: none;
+        box-shadow: $box-shadow;
     }
 }

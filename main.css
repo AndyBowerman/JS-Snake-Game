@@ -17,9 +17,15 @@
   border: 5px solid #a8fd00;
 }
 .game__button {
-  padding: 10px 20px;
+  padding: 10px 50px;
   border-radius: 5px;
-  font-size: 18px;
+  font-size: 24px;
+  background-color: #df0f15;
+  font-family: monospace;
+  font-weight: 500;
+  color: #f4f4f4;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .game__over {
@@ -100,4 +106,8 @@ body {
   height: 200px;
   width: auto;
   padding: 10px;
+}
+.header__list {
+  list-style: none;
+  font-size: 18px;
 }
