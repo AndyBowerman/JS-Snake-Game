@@ -14,7 +14,7 @@
   grid-template-rows: repeat(20, 1fr);
   margin-bottom: 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  border: 5px solid #a8fd00;
+  border: 5px solid #32cd32;
 }
 .game__button {
   padding: 10px 50px;
@@ -26,10 +26,10 @@
   color: #f4f4f4;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin: 20px;
 }
 
 .game__over {
-  background-color: #1c2519;
   height: 100%;
   width: 100%;
   border-radius: 20px;
@@ -48,7 +48,6 @@
   height: 100%;
   width: 100%;
   border-radius: 20px;
-  background-color: #1c2519;
   grid-area: 7/10/14/22;
   display: flex;
   flex-direction: column;
@@ -62,23 +61,59 @@
   padding: 20px;
 }
 .game__welcome h3 {
-  font-size: 20px;
+  font-size: 24px;
 }
 
 .game__snake {
-  background-color: #a8fd00;
+  background-color: #32cd32;
   height: 100%;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 50%;
 }
 
 .game__food {
   background-color: #df0f15;
   height: 100%;
   width: 100%;
-  border-radius: 50%;
+  border-radius: 10px;
 }
 
+@media screen and (max-width: 1500px) {
+  .game__container {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 900px) {
+  .game__container {
+    width: 70%;
+  }
+}
+@media screen and (max-width: 650px) {
+  .game__container {
+    width: 90%;
+  }
+
+  .game__button {
+    margin: 0;
+  }
+
+  .header__img {
+    height: 150px !important;
+  }
+}
+@media screen and (max-width: 400px) {
+  .header__img {
+    display: none;
+  }
+
+  .header__text {
+    padding: 20px 0;
+  }
+
+  .game__container {
+    width: 98%;
+  }
+}
 * {
   margin: 0;
   padding: 0;
@@ -105,9 +140,13 @@ body {
 .header__img {
   height: 200px;
   width: auto;
-  padding: 10px;
+  padding: 0 10px;
 }
 .header__list {
   list-style: none;
   font-size: 18px;
+}
+.header__difficulty {
+  font-size: 18px;
+  font-family: monospace;
 }

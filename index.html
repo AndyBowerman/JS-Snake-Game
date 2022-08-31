@@ -13,10 +13,19 @@
         <div>
             <img class="header__img" src="./images/snake.png" alt="Cartoon Snake">
         </div>
-        <ul class="header__list">
-            <li class="header__currentScore"></li>
-            <li class="header__bestScore"></li>
-        </ul>
+        <div class="header__text">
+            <ul class="header__list">
+                <li class="header__currentScore"></li>
+                <li class="header__bestScore"></li>
+            </ul>
+            <label for="difficulty" class="header__difficulty">Select your level:</label>
+            <select name="difficulty" class="header__difficulty header__difficulty--options">
+                <option value="200">Easy</option>
+                <option value="150">Medium</option>
+                <option value="100" selected="selected">Hard</option>
+                <option value="50">Pro Snaker</option>
+            </select>
+        </div>
         
     </header>
 

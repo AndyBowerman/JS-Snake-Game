@@ -1,0 +1,39 @@
+@media screen and(max-width: 1500px) {
+    .game__container {
+        width: 60%;
+    }
+}
+
+@media screen and(max-width: 900px) {
+    .game__container {
+        width: 70%;
+    }
+}
+
+@media screen and(max-width: 650px) {
+    .game__container {
+        width: 90%;
+    }
+
+    .game__button {
+        margin: 0;
+    }
+
+    .header__img {
+        height: 150px !important;
+    }
+}
+
+@media screen and(max-width: 400px) {
+    .header__img {
+        display: none;
+    }
+
+    .header__text {
+        padding: 20px 0;
+    }
+
+    .game__container {
+        width: 98%;
+    }
+}

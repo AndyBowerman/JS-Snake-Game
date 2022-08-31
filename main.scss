@@ -3,6 +3,7 @@
 @import "./modules/messages";
 @import "./modules/snake";
 @import "./modules/food";
+@import "./modules/media-queries";
 
 * {
     margin: 0;
@@ -30,12 +31,16 @@ body {
     &__img {
         height: 200px;
         width: auto;
-        padding: 10px;
+        padding: 0 10px;
     }
 
     &__list {
         list-style: none;
         font-size: 18px;
     }
-}
 
+    &__difficulty {
+        font-size: 18px;
+        font-family: $font-main;
+    }
+}

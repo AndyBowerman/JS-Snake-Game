@@ -1,29 +1,46 @@
-/*
-
-Tasks to complete
-
-
-
-Difficulty option - set speed of the interval function - need event listener to start main function when arrow pressed
-otherwise you can't set difficult before the function has already began.
-
-
-*/
-
 const container = document.querySelector('.game__container');
 const restartButton = document.querySelector('.game__button');
 
-// Default snake position
-let snakePosition = [[10, 14, 11, 15]];
+let snakePosition = [[10, 14, 11, 15]]; // Default snake position
 let direction = "";
 
 const food = document.createElement('div');
 food.setAttribute('class', 'game__food');
-let foodPosition = [];
 
+let foodPosition = [];
 
 let currentScore = -1;
 let bestScore = 0;
+
+const difficultySelector = document.querySelector('.header__difficulty--options');
+let myInterval = "";
+let speed = 100;
+
+
+
+// Sets direction the snake travels based on the arrow key pressed. Only runs if an arrow key is pressed
+// Only accepts arrow keys and won't allow you to go right if already travelling left etc.
+
+const setDirection = (e) => {
+    const directionsArray = ['arrowup', 'arrowdown', 'arrowright', 'arrowleft'];
+    if(directionsArray.includes(e.key.toLowerCase())) {
+        if(direction == "") {
+            restartGame();
+            direction = e.key.toLowerCase();
+        } else if(e.key.toLowerCase() == 'arrowright' && direction != 'arrowleft'){
+            direction = e.key.toLowerCase();
+        } else if(e.key.toLowerCase() == 'arrowleft' && direction != 'arrowright'){
+            direction = e.key.toLowerCase();
+        } else if(e.key.toLowerCase() == 'arrowup' && direction != 'arrowdown'){
+            direction = e.key.toLowerCase();
+        } else if(e.key.toLowerCase() == 'arrowdown' && direction != 'arrowup'){
+            direction = e.key.toLowerCase();
+        }    
+    }
+}
+
+document.body.addEventListener('keydown', setDirection);
+
 
 
 // Changes the foods position
@@ -55,7 +72,9 @@ const restartGame = () => {
     updateCurrentScore();
 }
 
-//Restart the game following death
+restartButton.addEventListener('click', restartGame);
+
+// Display game over message after death and updates current and best scores
 
 const gameOver = () => {
     direction = "";
@@ -113,8 +132,8 @@ const growSnake = () => {
 }
 
 
-// Run snakeDied if snake goes off the grid.
-// Can only travel head first so only need to check the head array.
+// Run gameOver if snake goes off the grid.
+// Can only travel head first so only need to check the head array is within the grid area
 
 const checkOnGrid = () => {
     const headArray = snakePosition[0];
@@ -124,8 +143,8 @@ const checkOnGrid = () => {
 }
 
 // Check if the snake hits itself
-// split snake into array containing the head and array containing the rest of the body.
-// filter body array by head array and if length reaches four run snakeDied function.
+// split snake into two arrays containing the head and body.
+// filter body array by head array and if length reaches four run gameOver function.
 
 const headWithinBody = () => {
     if(snakePosition.length > 1) {
@@ -140,6 +159,8 @@ const headWithinBody = () => {
 
 
 // Move the snake
+// Movement created by removing last area of areas and adding new one to the front with either rows or columns incremented or decremented.
+// Create a div for each array of arrays within the snakePosition array. On each iteration of the interval function it moves the snake across the grid.
 
 const moveSnake = () => {
     let arr = [];
@@ -168,47 +189,27 @@ const moveSnake = () => {
 }
 
 
+// Interval calls above funcitons every 0.1 secs (default) creating all the movement on the page.
 
-// Below runs the whole game and calls functions passed in every 100ms.
-
-
-    setInterval(() => {
+const runGame = () => {
+    myInterval = setInterval(() => {
         if(direction != "") {
             checkOnGrid();
             headWithinBody();
             growSnake();
             moveSnake();
         }                 
-    }, 100);
-
-
-
-// Sets direction the snake travels based on the arrow key pressed. Only runs if an arrow key is pressed 
-
-const setDirection = (e) => {
-    const directionsArray = ['arrowup', 'arrowdown', 'arrowright', 'arrowleft'];
-    if(directionsArray.includes(e.key.toLowerCase())) {
-        if(direction == "") {
-            restartGame();
-            direction = e.key.toLowerCase();
-        } else if(e.key.toLowerCase() == 'arrowright' && direction != 'arrowleft'){
-            direction = e.key.toLowerCase();
-        } else if(e.key.toLowerCase() == 'arrowleft' && direction != 'arrowright'){
-            direction = e.key.toLowerCase();
-        } else if(e.key.toLowerCase() == 'arrowup' && direction != 'arrowdown'){
-            direction = e.key.toLowerCase();
-        } else if(e.key.toLowerCase() == 'arrowdown' && direction != 'arrowup'){
-            direction = e.key.toLowerCase();
-        }    
-    }
+    }, speed);
 }
 
-document.body.addEventListener('keydown', setDirection);
+runGame();
 
+// To change level must stop the setInterval, assign the new speed setting and restart the interval. 
 
+const changeLevel = (e) => {
+    clearInterval(myInterval);
+    speed = e.target.value;
+    runGame();
+}
 
-
-
-
-
-restartButton.addEventListener('click', restartGame);
+difficultySelector.addEventListener('change', changeLevel);
